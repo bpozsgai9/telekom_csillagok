@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100..800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: "Martian Mono", monospace;
+            background-color: #1f1f1f
+        }
+    </style>
+</head>
+<body>
+    <div class="center" id="centered_div">
+    </div>
+<script>
+    window.addEventListener('load', () => {
+        var best_customers_arr;
+        fetch("best_customers.json")
+        .then(response => response.json())
+        .then(outputJson => {
+
+            best_customers_arr = JSON.parse(outputJson)["best_customers"];
+
+        }).then(() => {
+
+            //console.log(best_customers_arr);
+            const centered_div = document.getElementById('centered_div');
+            my_width = window.innerWidth -10;
+            my_height = window.innerHeight -10;
+            
+            centered_div.innerHTML =
+            `<svg width="${my_width}" height="${my_height}" xmlns="http://www.w3.org/2000/svg" id="my_svg"></svg>`;
+
+            const svg_root = document .getElementById('my_svg');
+            let x, y;
+            svg_root.innerHTML = '';
+            svg_root.innerHTML +=
+            `<text x="50" y="50" fill="magenta" font-size="30px" font-weight="bold">
+                LEGFÉNYESEBB CSILLAGAINK
+            </text>
+            <text x="50" y="80" fill="magenta" font-size="20px">
+                TELEKOM (2024 PREPAID)
+            </text>`
+            ;
+
+
+            best_customers_arr.forEach(e => {
+                
+                // véletlen pontok
+                x = Math.floor(Math.random() * my_width + 1);
+                y = Math.floor(Math.random() * my_height + 1);
+
+                svg_root.innerHTML +=
+                `<defs>
+                    <filter id="f1" x="0" y="0">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="40" />
+                    </filter>
+                </defs>`;
+
+                svg_root.innerHTML +=
+                `<circle r="${Math.round(e * 0.0005)}" cx="${x}" cy="${y}" fill="white" filter="url(#f1)"/>`;
+
+                svg_root.innerHTML +=
+                `<circle r="${3}" cx="${x}" cy="${y}" fill="white" class="star"/>`;
+
+                svg_root.innerHTML +=
+                `<text x="${x}" y="${y}" fill="magenta" style="display: none;" class="star_text" font-size="30px">${e} perc</text>`;
+            });
+
+            let starText_arr =
+                Array.from(document.getElementsByClassName('star_text'));
+            let star_arr =
+                Array.from(document.getElementsByClassName('star'));
+
+            for (let i = 0; i < star_arr.length; i++) {
+                
+                star_arr[i].addEventListener('mouseover', () => { 
+                    
+                    starText_arr[i].style.display = "inline"
+                });
+
+                star_arr[i].addEventListener('mouseout', () => { 
+                    
+                    starText_arr[i].style.display = "none"
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
