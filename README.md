@@ -2,9 +2,7 @@
 
 <img src="telekom_logo.jpg" width="100">
 
-<br>
-
-## bpozsgai9.github.io
+## bpozsgai9.github.io (Próbáld ki)
 
 - Az 1000 legtöbbet telefonáló prepaid ügyfél látszódik az űrben, magenta csillagként.
 
